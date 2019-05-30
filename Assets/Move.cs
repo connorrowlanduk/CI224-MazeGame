@@ -1,23 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class Move : MonoBehaviour
 {
-    Text txt;
+    //Text txt;
+    UnityEngine.UI.Text txt;
+
     int collectedBall = 0;
 
     // Use this for initialization
     void Start()
     {
-        Text txt = gameObject.GetComponent<Text>();
-
         Debug.Log("Hello World");
+
+        // Load the Arial font from the Unity Resources folder.
+        Font arial;
+        arial = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+
+        // Create Canvas GameObject.
+        GameObject canvasGO = new GameObject();
+        canvasGO.name = "Canvas";
+        canvasGO.AddComponent<Canvas>();
+        canvasGO.AddComponent<CanvasScaler>();
+        canvasGO.AddComponent<GraphicRaycaster>();
+
+        // Get canvas from the GameObject.
+        Canvas canvas;
+        canvas = canvasGO.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+        // Create the Text GameObject.
+        GameObject textGO = new GameObject();
+        textGO.transform.parent = canvasGO.transform;
+        textGO.AddComponent<Text>();
+
+        // Set Text component properties.
+        txt = textGO.AddComponent<UnityEngine.UI.Text>();
+        txt.font = arial;
+        txt.text = "0/8 Ball";
+        txt.fontSize = 48;
+        txt.alignment = TextAnchor.MiddleCenter;
+
+        // Provide Text position and size using RectTransform.
+        RectTransform rectTransform;
+        rectTransform = txt.GetComponent<RectTransform>();
+        rectTransform.localPosition = new Vector3(-650, -300, 0);
+        rectTransform.sizeDelta = new Vector2(600, 200);
     }
 
     // Update is called once per frame
@@ -45,7 +75,7 @@ public class Move : MonoBehaviour
         {
             collectedBall++;
 
-            txt.text = collectedBall + " collected ball";
+            txt.text = collectedBall + "/8 Ball";
         }
     }
 }
