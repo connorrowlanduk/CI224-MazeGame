@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class Move : MonoBehaviour
 {
-    //Text txt;
     UnityEngine.UI.Text txt;
 
     int collectedBall = 0;
 
-    // Use this for initialization
     void Start()
     {
         Debug.Log("Hello World");
@@ -41,16 +39,15 @@ public class Move : MonoBehaviour
         txt.font = arial;
         txt.text = "0/8 Ball";
         txt.fontSize = 48;
-        txt.alignment = TextAnchor.MiddleCenter;
+        txt.alignment = TextAnchor.LowerLeft;
 
         // Provide Text position and size using RectTransform.
         RectTransform rectTransform;
         rectTransform = txt.GetComponent<RectTransform>();
-        rectTransform.localPosition = new Vector3(-650, -300, 0);
+        rectTransform.localPosition = new Vector3(-450, -250, 0);
         rectTransform.sizeDelta = new Vector2(600, 200);
     }
 
-    // Update is called once per frame
     void Update()
     {
         float x = 0.0f;
@@ -71,11 +68,19 @@ public class Move : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("ball get pushed");
+
         if (collision.collider.name == "Collect")
         {
             collectedBall++;
 
-            txt.text = collectedBall + "/8 Ball";
+            if (collectedBall >= 8)
+            {
+                txt.text = "All Ball Collected";
+            }
+            else
+            {
+                txt.text = collectedBall + "/8 Ball";
+            }
         }
     }
 }
